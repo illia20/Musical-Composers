@@ -79,6 +79,10 @@ namespace Musical_Composers_History.Controllers
         [HttpPost]
         public async Task<ActionResult<Instrument>> PostInstrument(Instrument instrument)
         {
+            if (InstrumentExist(instrument.Name))
+            {
+                return StatusCode(400);
+            }
             _context.Instruments.Add(instrument);
             await _context.SaveChangesAsync();
 
@@ -100,10 +104,13 @@ namespace Musical_Composers_History.Controllers
 
             return instrument;
         }
-
         private bool InstrumentExists(int id)
         {
             return _context.Instruments.Any(e => e.Id == id);
+        }
+        private bool InstrumentExist(string name)
+        {
+            return _context.Instruments.Any(e => e.Name.ToLower() == name.ToLower());
         }
     }
 }

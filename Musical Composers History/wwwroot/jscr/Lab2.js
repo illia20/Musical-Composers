@@ -5,7 +5,7 @@ function getInstruments() {
     fetch(uri)
         .then(response => response.json())
         .then(data => _displayInstruments(data))
-        .catch(error => console.error("Unable to get instruments.", error));
+        .catch(error => console.error('Unable to get instruments.', error));
 }
 
 function addInstrument() {
@@ -33,10 +33,10 @@ function addInstrument() {
 }
 
 function deleteInstrument(id) {
-    fetch('${uri}/${id}', {
+    fetch(`${uri}/${id}`, {
         method: 'DELETE'
     })
-        .then(() => getInstruments)
+        .then(() => getInstruments())
         .catch(error => console.error('Unable to delete instrument.', error));
 }
 
@@ -56,7 +56,7 @@ function updateInstrument() {
         name: document.getElementById('edit-name').value.trim(),
         info: document.getElementById('edit-info').value.trim()
     };
-    fetch('${uri}/${instrumentId}', {
+    fetch(`${uri}/${instrumentId}`, {
         method: 'PUT',
         headers: {
             'Accept': 'application/json',
@@ -68,6 +68,7 @@ function updateInstrument() {
         .then(() => getInstruments())
         .catch(error => console.error('Unable to update instrument', error));
     closeInput();
+    getInstruments();
     return false;
 }
 
@@ -84,11 +85,11 @@ function _displayInstruments(data) {
     data.forEach(Instrument => {
         let editButton = button.cloneNode(false);
         editButton.innerText = 'Edit';
-        editButton.setAttribute('onclick', 'displayEditForm(${Instrument.id})');
+        editButton.setAttribute('onclick', `displayEditForm(${Instrument.id})`);
 
         let deleteButton = button.cloneNode(false);
         deleteButton.innerText = 'Delete';
-        deleteButton.setAttribute('onclick', 'deleteInstrument(${Instrument.id})');
+        deleteButton.setAttribute('onclick', `deleteInstrument(${Instrument.id})`);
 
         let tr = tBody.insertRow();
 
